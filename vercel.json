@@ -3,7 +3,7 @@
   "outputDirectory": "client/build",
   "framework": "create-react-app",
   "functions": {
-    "api/**/*.js": {
+    "api/**/*.ts": {
       "memory": 1024,
       "maxDuration": 30
     }
