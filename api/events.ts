@@ -11,7 +11,18 @@ async function connectDB() {
   }
 
   if (!process.env.MONGO_URI) {
-    throw new Error('MONGO_URI environment variable is not set');
+    throw new Error(
+      'MONGO_URI environment variable is not set. ' +
+      'Please configure it in Vercel Settings → Environment Variables. ' +
+      'Get your MongoDB connection string from MongoDB Atlas and add it as MONGO_URI.'
+    );
+  }
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error(
+      'JWT_SECRET environment variable is not set. ' +
+      'Please configure it in Vercel Settings → Environment Variables.'
+    );
   }
 
   const connection = await mongoose.connect(process.env.MONGO_URI, {
