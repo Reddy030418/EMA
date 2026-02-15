@@ -9,22 +9,8 @@ async function connectDB() {
     return cachedConnection;
   }
 
-  if (!process.env.MONGO_URI) {
-    throw new Error(
-      'MONGO_URI environment variable is not set. ' +
-      'Please configure it in Vercel Settings → Environment Variables. ' +
-      'Get your MongoDB connection string from MongoDB Atlas and add it as MONGO_URI.'
-    );
-  }
-
-  if (!process.env.JWT_SECRET) {
-    throw new Error(
-      'JWT_SECRET environment variable is not set. ' +
-      'Please configure it in Vercel Settings → Environment Variables.'
-    );
-  }
-
-  const connection = await mongoose.connect(process.env.MONGO_URI, {
+  // Env vars are validated in handler before calling connectDB
+  const connection = await mongoose.connect(process.env.MONGO_URI!, {
     maxPoolSize: 1,
   });
   cachedConnection = connection;
@@ -58,6 +44,17 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  }
+
+  // VALIDATE ENVIRONMENT VARIABLES FIRST (graceful fail)
+  if (!process.env.MONGO_URI) {
+    console.error('❌ Event details error: MONGO_URI is not configured in Vercel environment');
+    return res.status(500).json({
+      error: 'Database connection not configured',
+      message: 'MONGO_URI environment variable is missing',
+      help: 'Go to Vercel dashboard → Settings → Environment Variables → Add MONGO_URI',
+      status: 'CONFIGURATION_ERROR'
+    });
   }
 
   try {
