@@ -3,11 +3,15 @@ import jwt from 'jsonwebtoken';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 // MongoDB connection cache
-let cachedConnection = null;
+let cachedConnection: any = null;
 
 async function connectDB() {
   if (cachedConnection) {
     return cachedConnection;
+  }
+
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI environment variable is not set');
   }
 
   const connection = await mongoose.connect(process.env.MONGO_URI, {
@@ -65,9 +69,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     return;
   }
 
-  await connectDB();
-
   try {
+    await connectDB();
     const user = authenticateToken(req);
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' });
@@ -129,8 +132,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     }
 
     return res.status(404).json({ message: 'Not found' });
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error('Registrations error:', error);
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
