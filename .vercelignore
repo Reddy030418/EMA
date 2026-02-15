@@ -1,5 +1,6 @@
 server
 .git
+node_modules
 .gitignore
 README.md
 README_PROJECT.md
