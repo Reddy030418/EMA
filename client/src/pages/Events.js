@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import { getEvents } from '../api/endpoints';
@@ -20,7 +20,11 @@ const Events = () => {
   const location = searchParams.get('location') || '';
   const page = parseInt(searchParams.get('page') || '1');
 
-  const fetchEvents = useCallback(async () => {
+  useEffect(() => {
+    fetchEvents();
+  }, [search, category, location, page]);
+
+  const fetchEvents = async () => {
     setLoading(true);
     setError('');
     try {
@@ -43,11 +47,7 @@ const Events = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, category, location, page]);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
