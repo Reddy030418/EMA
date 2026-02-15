@@ -2,7 +2,6 @@
   "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/build",
   "framework": "react",
-  "nodeVersion": "18.x",
   "env": {
     "MONGO_URI": "@mongo_uri",
     "JWT_SECRET": "@jwt_secret"
