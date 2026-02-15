@@ -67,7 +67,7 @@ const Events = () => {
   };
 
   const categories = ['Technology', 'Design', 'Business', 'Marketing', 'Community', 'Networking'];
-  const locations = ['San Francisco', 'New York', 'Los Angeles', 'Chicago', 'Boston', 'Seattle', 'Austin', 'Denver'];
+  const locations = ['Hyderabad', 'Bangalore', 'Chennai', 'Delhi', 'Pune', 'Gurgaon', 'Jaipur', 'Kolkata', 'Mumbai', 'Kerala', 'Ahmedabad', 'Chandigarh', 'Lucknow', 'Indore', 'Surat'];
 
   return (
     <div className="events-container">
